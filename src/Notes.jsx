@@ -3,7 +3,7 @@ export function Notes() {
   return (
     <div className="w-screen h-auto min-h-screen">
       <div class="flex h-screen w-1/5 flex-col justify-between border-r bg-white">
-        <div class="px-4 py-6">
+        <div class="px-4 py-6 bg-slate-100">
           <span class="grid h-20 w-20 place-content-center rounded-lg text-xs">
             <p>NOTES</p>
           </span>
@@ -51,6 +51,9 @@ export function Notes() {
               <span class="text-sm font-medium"> Folder </span>
             </a>
           </nav>
+        </div>
+        <div>
+          <p>hello!</p>
         </div>
       </div>
     </div>

@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export function Notes() {
+  const [openText, setOpenText] = useState(false);
+  const [openNote, setOpenNote] = useState(false);
+
   const [notes, setNotes] = useState([]);
 
   const handleIndexNotes = () => {
@@ -84,17 +87,42 @@ export function Notes() {
 
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 h-screen">
-          <div>
-            <p className="mx-auto text-center m-2 text-blue-600 font-bold border border-blue-600 rounded-xl w-auto">
-              Add Note
-            </p>
+          <div className="mx-auto">
+            {openText ? (
+              <div className="mx-auto text-center m-2">
+                <input placeholder="Title" className="w-full rounded-lg border border-blue-600 text-sm p-3 mb-2" />
+                <textarea
+                  className="w-full rounded-lg border-blue-600 p-3 text-sm"
+                  placeholder="Note"
+                  rows="8"
+                ></textarea>
+                <button className="rounded-lg w-16 p-1 bg-blue-600 text-white mb-2">Submit</button>
+                <button className="rounded-lg w-16 p-1 bg-blue-600 text-white mb-2" onClick={() => setOpenText(false)}>
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <div className="mx-auto text-center m-2 text-blue-600 font-bold border border-blue-600 rounded-xl w-auto">
+                <button onClick={() => setOpenText(true)}>Add Note</button>
+              </div>
+            )}
           </div>
           {notes.map((note) => (
-            <a key={note.id} className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-white">{note.name}</p>
-            </a>
+            <div
+              key={note.id}
+              className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800"
+            >
+              {openNote ? (
+                <a onClick={() => setOpenNote(false)} className="text-2xl text-gray-400 dark:text-white">
+                  {note.body}
+                </a>
+              ) : (
+                <a onClick={() => setOpenNote(true)} className="text-2xl text-gray-400 dark:text-white">
+                  {note.name}
+                </a>
+              )}
+            </div>
           ))}
-          ;
         </div>
       </div>
     </div>

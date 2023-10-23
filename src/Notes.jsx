@@ -1,6 +1,7 @@
 import logo from "./assets/noteylogo.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { LogoutLink } from "./Logout";
 
 export function Notes() {
   const [openText, setOpenText] = useState(false);
@@ -12,6 +13,15 @@ export function Notes() {
     axios.get("http://localhost:3000/notes.json").then((response) => {
       console.log(response.data);
       setNotes(response.data);
+    });
+  };
+
+  const handleCreateNote = (e) => {
+    e.preventDefault();
+    let params = new FormData(e.target);
+    axios.post("http://localhost:3000/notes.json", params).then((response) => {
+      window.location.href = "/";
+      console.log(response.data);
     });
   };
 
@@ -64,6 +74,10 @@ export function Notes() {
             </li>
 
             <li>
+              <LogoutLink />
+            </li>
+
+            <li>
               <a href="/signup" className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 ">
                 <svg
                   aria-hidden="true"
@@ -87,42 +101,56 @@ export function Notes() {
 
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 h-screen">
-          <div className="mx-auto">
-            {openText ? (
-              <div className="mx-auto text-center m-2">
-                <input placeholder="Title" className="w-full rounded-lg border border-blue-600 text-sm p-3 mb-2" />
-                <textarea
-                  className="w-full rounded-lg border-blue-600 p-3 text-sm"
-                  placeholder="Note"
-                  rows="8"
-                ></textarea>
-                <button className="rounded-lg w-16 p-1 bg-blue-600 text-white mb-2">Submit</button>
-                <button className="rounded-lg w-16 p-1 bg-blue-600 text-white mb-2" onClick={() => setOpenText(false)}>
-                  Cancel
-                </button>
+          {localStorage.jwt === undefined ? (
+            <p className="text-center mt-20">Login to view notes</p>
+          ) : (
+            <>
+              <div className="mx-auto">
+                {openText ? (
+                  <form className="mx-auto text-center m-2" onSubmit={handleCreateNote}>
+                    <input
+                      placeholder="Title"
+                      className="w-full rounded-lg border border-blue-600 text-sm p-3 mb-2"
+                      name="name"
+                    />
+                    <textarea
+                      className="w-full rounded-lg border-blue-600 p-3 text-sm"
+                      placeholder="Note"
+                      rows="8"
+                      name="body"
+                    ></textarea>
+                    <button className="rounded-lg w-16 p-1 bg-blue-600 text-white mb-2">Submit</button>
+                    <button
+                      className="rounded-lg w-16 p-1 bg-blue-600 text-white mb-2"
+                      onClick={() => setOpenText(false)}
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                ) : (
+                  <div className="mx-auto text-center m-2 text-blue-600 font-bold border border-blue-600 rounded-xl w-auto">
+                    <button onClick={() => setOpenText(true)}>Add Note</button>
+                  </div>
+                )}
               </div>
-            ) : (
-              <div className="mx-auto text-center m-2 text-blue-600 font-bold border border-blue-600 rounded-xl w-auto">
-                <button onClick={() => setOpenText(true)}>Add Note</button>
-              </div>
-            )}
-          </div>
-          {notes.map((note) => (
-            <div
-              key={note.id}
-              className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800"
-            >
-              {openNote ? (
-                <a onClick={() => setOpenNote(false)} className="text-2xl text-gray-400 dark:text-white">
-                  {note.body}
-                </a>
-              ) : (
-                <a onClick={() => setOpenNote(true)} className="text-2xl text-gray-400 dark:text-white">
-                  {note.name}
-                </a>
-              )}
-            </div>
-          ))}
+              {notes.map((note) => (
+                <div
+                  key={note.id}
+                  className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800"
+                >
+                  {openNote ? (
+                    <a onClick={() => setOpenNote(false)} className="text-2xl text-gray-400 dark:text-white">
+                      {note.body}
+                    </a>
+                  ) : (
+                    <a onClick={() => setOpenNote(true)} className="text-2xl text-gray-400 dark:text-white">
+                      {note.name}
+                    </a>
+                  )}
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </div>

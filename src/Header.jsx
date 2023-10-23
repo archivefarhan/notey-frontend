@@ -8,7 +8,7 @@ export function Header() {
           <div class="flex items-center justify-start">
             <a href="/" class="flex ml-2 md:mr-24">
               <img src={logo} class="h-8 mr-3" alt="Notey Logo" />
-              <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap ">Notey</span>
+              <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">Notey</span>
             </a>
           </div>
         </div>

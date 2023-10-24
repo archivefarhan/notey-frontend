@@ -7,6 +7,7 @@ export function Notes() {
   const [openText, setOpenText] = useState(false);
   const [openNote, setOpenNote] = useState(false);
   const [editNote, setEditNote] = useState(false);
+  const [deleteNote, setDeleteNote] = useState(false);
 
   const [notes, setNotes] = useState([]);
 
@@ -30,8 +31,21 @@ export function Notes() {
     console.log("working on this");
   };
 
-  const handleDeleteNote = () => {
-    console.log("working on this");
+  const handleDeleteStart = () => {
+    setDeleteNote(true);
+  };
+
+  const handleDeleteNote = (note) => {
+    console.log("note", note);
+    axios
+      .delete(`http://localhost:3000/notes/${note.id}.json`)
+      .then(() => {
+        console.log("get em outt ere");
+        window.location.href = "/";
+      })
+      .catch(() => {
+        console.log("failure");
+      });
   };
 
   useEffect(handleIndexNotes, []);
@@ -203,7 +217,7 @@ export function Notes() {
                           </button>
                           <button
                             className="mx-auto text-center m-2 text-red-600 font-bold border border-red-600 rounded-xl w-full"
-                            onClick={handleDeleteNote}
+                            onClick={handleDeleteStart}
                           >
                             Delete Notes
                           </button>
@@ -214,22 +228,80 @@ export function Notes() {
                 )}
               </div>
 
-              {notes.map((note) => (
-                <div
-                  key={note.id}
-                  className="flex items-center justify-center h-auto mb-4 rounded-xl bg-gray-50 dark:bg-gray-800"
-                >
-                  {openNote ? (
-                    <a onClick={() => setOpenNote(false)} className="text-2xl text-gray-400 dark:text-white">
-                      {note.body}
-                    </a>
-                  ) : (
-                    <a onClick={() => setOpenNote(true)} className="text-2xl text-gray-400 dark:text-white">
-                      {note.name}
-                    </a>
-                  )}
-                </div>
-              ))}
+              {deleteNote ? (
+                <>
+                  <div>
+                    {notes.map((note) => (
+                      <div key={note.id} className="flex items-center justify-center ">
+                        {openNote ? (
+                          <>
+                            <div className="h-auto mb-4 rounded-xl bg-gray-50 dark:bg-gray-800 w-full text-center ">
+                              <a onClick={() => setOpenNote(false)} className="text-2xl text-gray-400 dark:text-white ">
+                                {note.body}
+                              </a>
+                            </div>
+                            <button
+                              className="bg-white border-red-500 border-2  rounded-xl ml-2 mb-4 h-auto w-20"
+                              onClick={() => {
+                                handleDeleteNote(note);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <div className="h-auto mb-4 rounded-xl bg-gray-50 dark:bg-gray-800 w-full text-center">
+                              <a onClick={() => setOpenNote(true)} className="text-2xl text-gray-400 dark:text-white">
+                                {note.name}
+                              </a>
+                            </div>
+                            <button
+                              className="bg-white border-red-500 border-2  rounded-xl ml-2 h-auto w-20"
+                              onClick={() => {
+                                handleDeleteNote(note);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    ))}
+                    <div className="flex justify-end">
+                      <button
+                        className="bg-red-600 text-white rounded-xl w-20"
+                        onClick={() => {
+                          setDeleteNote(false);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    {notes.map((note) => (
+                      <div
+                        key={note.id}
+                        className="flex items-center justify-center h-auto mb-4 rounded-xl bg-gray-50 dark:bg-gray-800"
+                      >
+                        {openNote ? (
+                          <a onClick={() => setOpenNote(false)} className="text-2xl text-gray-400 dark:text-white">
+                            {note.body}
+                          </a>
+                        ) : (
+                          <a onClick={() => setOpenNote(true)} className="text-2xl text-gray-400 dark:text-white">
+                            {note.name}
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>

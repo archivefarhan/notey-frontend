@@ -9,8 +9,18 @@ export function Notes() {
   const [openNote, setOpenNote] = useState(false);
   const [editNote, setEditNote] = useState(false);
   const [deleteNote, setDeleteNote] = useState(false);
+  const [currentId, setCurrentId] = useState(null);
 
   const [notes, setNotes] = useState([]);
+
+  const setCurrentNotes = (id) => {
+    if (id === currentId) {
+      setCurrentId(null);
+    } else {
+      setCurrentId(id);
+    }
+    console.log(id);
+  };
 
   const handleIndexNotes = () => {
     axios.get("http://localhost:3000/notes.json").then((response) => {
@@ -271,12 +281,18 @@ export function Notes() {
                         key={note.id}
                         className="flex items-center justify-center h-auto mb-4 rounded-xl bg-gray-50 dark:bg-gray-800"
                       >
-                        {openNote ? (
-                          <a onClick={() => setOpenNote(false)} className="text-2xl text-gray-400 dark:text-white">
+                        {note.id === currentId ? (
+                          <a
+                            onClick={() => setCurrentNotes(note.id)}
+                            className="text-2xl text-gray-400 dark:text-white"
+                          >
                             {note.body}
                           </a>
                         ) : (
-                          <a onClick={() => setOpenNote(true)} className="text-2xl text-gray-400 dark:text-white">
+                          <a
+                            onClick={() => setCurrentNotes(note.id)}
+                            className="text-2xl text-gray-400 dark:text-white"
+                          >
                             {note.name}
                           </a>
                         )}

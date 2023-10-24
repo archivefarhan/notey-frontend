@@ -1,4 +1,5 @@
 import logo from "./assets/noteylogo.png";
+import { Login } from "./Login";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { LogoutLink } from "./Logout";
@@ -81,24 +82,6 @@ export function Notes() {
             {localStorage.jwt === undefined ? (
               <>
                 <li>
-                  <a href="/login" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 ">
-                    <svg
-                      aria-hidden="true"
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Sign In</span>
-                  </a>
-                </li>
-                <li>
                   <a href="/signup" className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100 ">
                     <svg
                       aria-hidden="true"
@@ -148,7 +131,7 @@ export function Notes() {
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 h-screen">
           {localStorage.jwt === undefined ? (
-            <p className="text-center mt-20 text-4xl font-bold">LOGIN TO VIEW NOTES</p>
+            <Login />
           ) : (
             <>
               <div className="mx-auto">

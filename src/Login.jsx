@@ -29,7 +29,7 @@ export function Login() {
   };
 
   return (
-    <div id="login" className="w-screen h-auto min-h-screen">
+    <div id="login">
       <h1 className="mt-96 mb-5 text-center font-bold text-4xl">Login</h1>
       <ul className="text-center mt-5">
         {errors.map((error) => (

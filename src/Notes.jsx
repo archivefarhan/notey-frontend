@@ -2,7 +2,7 @@ import { Login } from "./Login";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { LogoutLink } from "./Logout";
-import { EditNote } from "./Components/EditNote";
+import { EditNote } from "./EditNote";
 
 export function Notes() {
   const [openText, setOpenText] = useState(false);
@@ -36,6 +36,14 @@ export function Notes() {
       window.location.href = "/";
       console.log(response.data);
     });
+  };
+
+  const handleStartShow = (openText) => {
+    if (openText === true) {
+      setOpenText(false);
+    } else {
+      setOpenText(true);
+    }
   };
 
   const handleStartUpdate = (editNote) => {
@@ -163,7 +171,7 @@ export function Notes() {
               <div className="grid grid-cols-3 mb-5 gap-4 ">
                 <button
                   className="mx-auto text-center m-2 text-blue-600 font-bold border border-blue-600 rounded-xl w-full"
-                  onClick={() => setOpenText(true)}
+                  onClick={() => handleStartShow(openText)}
                 >
                   Add Note
                 </button>
@@ -245,6 +253,12 @@ export function Notes() {
                                 {note.name}
                               </a>
                             </div>
+                            <button
+                              className="bg-white border-yellow-500 border-2  rounded-xl ml-2 mb-4 h-auto w-20"
+                              onClick={handleUpdateNote}
+                            >
+                              Edit
+                            </button>
                             <button
                               className="bg-white border-red-500 border-2  rounded-xl ml-2 mb-4 h-auto w-20"
                               onClick={() => {

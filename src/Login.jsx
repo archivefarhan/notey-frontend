@@ -9,7 +9,7 @@ if (jwt) {
 export function Login() {
   const [errors, setErrors] = useState([]);
 
-  const handleSubmit = (event) => {
+  const handleLogin = (event) => {
     event.preventDefault();
     setErrors([]);
     const params = new FormData(event.target);
@@ -37,7 +37,7 @@ export function Login() {
         ))}
       </ul>
       <div className="text-center">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <label
             for="UserEmail"
             class="mt-10 w-1/5 mx-auto relative block overflow-hidden rounded-md border border-gray-200 px-3 pt-3 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"

@@ -1,8 +1,8 @@
-import logo from "./assets/noteylogo.png";
 import { Login } from "./Login";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { LogoutLink } from "./Logout";
+import { EditNote } from "./Components/EditNote";
 
 export function Notes() {
   const [openText, setOpenText] = useState(false);
@@ -38,12 +38,28 @@ export function Notes() {
     });
   };
 
+  const handleStartUpdate = (editNote) => {
+    if (editNote === false) {
+      console.log("false");
+      setEditNote(true);
+    } else {
+      console.log("true");
+      setEditNote(false);
+    }
+  };
+
   const handleUpdateNote = () => {
     console.log("working on this");
   };
 
-  const handleDeleteStart = () => {
-    setDeleteNote(true);
+  const handleDeleteStart = (deleteNote) => {
+    if (deleteNote === true) {
+      setDeleteNote(false);
+      console.log(deleteNote);
+    } else {
+      setDeleteNote(true);
+      console.log(deleteNote);
+    }
   };
 
   const handleDeleteNote = (note) => {
@@ -144,6 +160,26 @@ export function Notes() {
             <Login />
           ) : (
             <>
+              <div className="grid grid-cols-3 mb-5 gap-4 ">
+                <button
+                  className="mx-auto text-center m-2 text-blue-600 font-bold border border-blue-600 rounded-xl w-full"
+                  onClick={() => setOpenText(true)}
+                >
+                  Add Note
+                </button>
+                <button
+                  className="mx-auto text-center m-2 text-orange-400 font-bold border border-orange-400 rounded-xl w-full"
+                  onClick={() => handleStartUpdate(editNote)}
+                >
+                  Edit Notes
+                </button>
+                <button
+                  className="mx-auto text-center m-2 text-red-600 font-bold border border-red-600 rounded-xl w-full"
+                  onClick={() => handleDeleteStart(deleteNote)}
+                >
+                  Delete Notes
+                </button>
+              </div>
               <div className="mx-auto">
                 {openText ? (
                   <form className="mx-auto text-center m-2" onSubmit={handleCreateNote}>
@@ -171,51 +207,10 @@ export function Notes() {
                   <>
                     {editNote ? (
                       <>
-                        <form className="mx-auto text-center m-2" onSubmit={handleUpdateNote}>
-                          <input
-                            placeholder="Title"
-                            className="w-full rounded-lg border border-orange-400 text-sm p-3 mb-2"
-                            name="name"
-                          />
-                          <textarea
-                            className="w-full rounded-lg border-orange-400 p-3 text-sm"
-                            placeholder="Note"
-                            rows="8"
-                            name="body"
-                          ></textarea>
-                          <button className="rounded-lg w-16 p-1 bg-orange-400 text-white mb-2 mr-1">Submit</button>
-
-                          <button
-                            className="rounded-lg w-16 p-1 ml-1 bg-orange-400 text-white mb-2"
-                            onClick={() => setEditNote(false)}
-                          >
-                            Cancel
-                          </button>
-                        </form>
+                        <EditNote />
                       </>
                     ) : (
-                      <>
-                        <div className="grid grid-cols-3 mb-5 gap-4 ">
-                          <button
-                            className="mx-auto text-center m-2 text-blue-600 font-bold border border-blue-600 rounded-xl w-full"
-                            onClick={() => setOpenText(true)}
-                          >
-                            Add Note
-                          </button>
-                          <button
-                            className="mx-auto text-center m-2 text-orange-400 font-bold border border-orange-400 rounded-xl w-full"
-                            onClick={() => setEditNote(true)}
-                          >
-                            Edit Notes
-                          </button>
-                          <button
-                            className="mx-auto text-center m-2 text-red-600 font-bold border border-red-600 rounded-xl w-full"
-                            onClick={handleDeleteStart}
-                          >
-                            Delete Notes
-                          </button>
-                        </div>
-                      </>
+                      <></>
                     )}
                   </>
                 )}
@@ -233,6 +228,7 @@ export function Notes() {
                                 {note.body}
                               </a>
                             </div>
+
                             <button
                               className="bg-white border-red-500 border-2  rounded-xl ml-2 mb-4 h-auto w-20"
                               onClick={() => {
@@ -250,7 +246,7 @@ export function Notes() {
                               </a>
                             </div>
                             <button
-                              className="bg-white border-red-500 border-2  rounded-xl ml-2 h-auto w-20"
+                              className="bg-white border-red-500 border-2  rounded-xl ml-2 mb-4 h-auto w-20"
                               onClick={() => {
                                 handleDeleteNote(note);
                               }}
@@ -261,16 +257,6 @@ export function Notes() {
                         )}
                       </div>
                     ))}
-                    <div className="flex justify-end">
-                      <button
-                        className="bg-red-600 text-white rounded-xl w-20"
-                        onClick={() => {
-                          setDeleteNote(false);
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
                   </div>
                 </>
               ) : (
@@ -286,7 +272,7 @@ export function Notes() {
                             onClick={() => setCurrentNotes(note.id)}
                             className="text-2xl text-gray-400 dark:text-white"
                           >
-                            {note.body}
+                            <p className="p-4">{note.body}</p>
                           </a>
                         ) : (
                           <a

@@ -23,7 +23,7 @@ export function Notes() {
   };
 
   const handleIndexNotes = () => {
-    axios.get("http://localhost:3000/notes.json").then((response) => {
+    axios.get("https://boiling-tundra-90858-c75332eb6e2f.herokuapp.com/").then((response) => {
       console.log(response.data);
       setNotes(response.data);
     });

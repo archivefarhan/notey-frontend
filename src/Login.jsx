@@ -14,7 +14,7 @@ export function Login() {
     setErrors([]);
     const params = new FormData(event.target);
     axios
-      .post("http://localhost:3000/sessions", params)
+      .post("https://boiling-tundra-90858-c75332eb6e2f.herokuapp.com/sessions", params)
       .then((response) => {
         console.log(response.data);
         axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.jwt;

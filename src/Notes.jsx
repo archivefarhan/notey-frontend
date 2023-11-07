@@ -23,7 +23,7 @@ export function Notes() {
   };
 
   const handleIndexNotes = () => {
-    axios.get("https://boiling-tundra-90858-c75332eb6e2f.herokuapp.com/").then((response) => {
+    axios.get("https://boiling-tundra-90858-c75332eb6e2f.herokuapp.com/notes.json").then((response) => {
       console.log(response.data);
       setNotes(response.data);
     });
@@ -32,7 +32,7 @@ export function Notes() {
   const handleCreateNote = (e) => {
     e.preventDefault();
     let params = new FormData(e.target);
-    axios.post("http://localhost:3000/notes.json", params).then((response) => {
+    axios.post("https://boiling-tundra-90858-c75332eb6e2f.herokuapp.com/notes.json", params).then((response) => {
       window.location.href = "/";
       console.log(response.data);
     });
@@ -73,7 +73,7 @@ export function Notes() {
   const handleDeleteNote = (note) => {
     console.log("note", note);
     axios
-      .delete(`http://localhost:3000/notes/${note.id}.json`)
+      .delete(`https://boiling-tundra-90858-c75332eb6e2f.herokuapp.com/notes/${note.id}.json`)
       .then(() => {
         console.log("get em outt ere");
         window.location.href = "/";

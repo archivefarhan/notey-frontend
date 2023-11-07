@@ -9,7 +9,7 @@ export function Signup() {
     setErrors([]);
     const params = new FormData(event.target);
     axios
-      .post("http://localhost:3000/users", params)
+      .post("https://boiling-tundra-90858-c75332eb6e2f.herokuapp.com/users", params)
       .then((response) => {
         console.log(response.data);
         event.target.reset();
